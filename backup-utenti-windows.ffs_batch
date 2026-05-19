@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FreeFileSync XmlType="BATCH" XmlFormat="21">
+    <Batch>
+        <IgnoreErrors>false</IgnoreErrors>
+        <PostSyncAction>Exit</PostSyncAction>
+        <BatchErrorHandling>ShowPopup</BatchErrorHandling>
+        <LogfileFolder enabled="true" append="true">D:\Backup\Logs</LogfileFolder>
+    </Batch>
+    <MainConfig>
+        <Comparison>
+            <Variant>TimeAndSize</Variant>
+            <Symlinks>Exclude</Symlinks>
+            <IgnoreTimeShift/>
+        </Comparison>
+        <SyncConfig>
+            <Directions>
+                <LeftOnly>Copy</LeftOnly>
+                <RightOnly>Delete</RightOnly>
+                <LeftNewer>Copy</LeftNewer>
+                <RightNewer>None</RightNewer>
+                <Different>Copy</Different>
+                <Conflict>Copy</Conflict>
+            </Directions>
+            <DetectMovedFiles>false</DetectMovedFiles>
+            <DeletionPolicy>RecycleBin</DeletionPolicy>
+        </SyncConfig>
+        <GlobalFilter>
+            <Include>
+                <Item>*</Item>
+            </Include>
+            <Exclude>
+                <!-- Temporanei e lock ovunque -->
+                <Item>*.tmp</Item>
+                <Item>*.lock</Item>
+                <Item>*.dmp</Item>
+                <Item>~$*</Item>
+                <Item>Thumbs.db</Item>
+                <Item>desktop.ini</Item>
+                <!-- Registry hive lock files -->
+                <Item>ntuser.dat.log*</Item>
+                <Item>NTUSER.DAT{*</Item>
+                <Item>usrclass.dat{*</Item>
+                <!-- Dev ricostruibili (globale, vale per entrambe le pair) -->
+                <Item>*\node_modules\*</Item>
+                <Item>*\.venv\*</Item>
+                <Item>*\__pycache__\*</Item>
+            </Exclude>
+        </GlobalFilter>
+        <FolderPairs>
+
+            <!-- ══════════════════════════════════════════════════════
+                 PAIR 1 — tutti gli utenti (inclusi profili di sistema)
+                 Sorgente: C:\Users\ intera
+                 Escluse solo cache, temp e cartelle ricostruibili
+                 ══════════════════════════════════════════════════════ -->
+            <Pair>
+                <Left>C:\Users</Left>
+                <Right>D:\Backup\NomeMacchina\Users</Right>
+                <LocalFilter>
+                    <Exclude>
+                        <!-- Cache sistema -->
+                        <Item>*\AppData\Local\Temp\*</Item>
+                        <Item>*\AppData\Local\Packages\*</Item>
+                        <Item>*\AppData\Local\Microsoft\Windows\INetCache\*</Item>
+                        <Item>*\AppData\Local\Microsoft\Windows\WebCache\*</Item>
+                        <Item>*\AppData\Local\Microsoft\Windows\Caches\*</Item>
+                        <Item>*\AppData\Local\Microsoft\Windows\Explorer\*</Item>
+                        <!-- Cache browser -->
+                        <Item>*\AppData\Local\Google\Chrome\User Data\Default\Cache\*</Item>
+                        <Item>*\AppData\Local\Microsoft\Edge\User Data\Default\Cache\*</Item>
+                        <!-- Cache sviluppo -->
+                        <Item>*\AppData\Local\pip\cache\*</Item>
+                        <Item>*\AppData\Local\npm-cache\*</Item>
+                        <Item>*\AppData\Local\Yarn\*</Item>
+                    </Exclude>
+                </LocalFilter>
+            </Pair>
+
+            <!-- ══════════════════════════════════════════════════════
+                 PAIR 2 — cartelle custom in radice C:\
+                 Esclude tutte le cartelle di sistema Windows
+                 e la cartella Users (già coperta dalla Pair 1)
+                 ══════════════════════════════════════════════════════ -->
+            <Pair>
+                <Left>C:\</Left>
+                <Right>D:\Backup\NomeMacchina\root</Right>
+                <LocalFilter>
+                    <Exclude>
+                        <!-- Cartelle sistema OS -->
+                        <Item>\Windows\*</Item>
+                        <Item>\Windows.old\*</Item>
+                        <Item>\Program Files\*</Item>
+                        <Item>\Program Files (x86)\*</Item>
+                        <Item>\ProgramData\*</Item>
+                        <Item>\Users\*</Item>
+                        <Item>\Recovery\*</Item>
+                        <Item>\PerfLogs\*</Item>
+                        <Item>\$Recycle.Bin\*</Item>
+                        <Item>\System Volume Information\*</Item>
+                        <!-- File OS in radice -->
+                        <Item>\pagefile.sys</Item>
+                        <Item>\hiberfil.sys</Item>
+                        <Item>\swapfile.sys</Item>
+                    </Exclude>
+                </LocalFilter>
+            </Pair>
+
+        </FolderPairs>
+    </MainConfig>
+</FreeFileSync>
