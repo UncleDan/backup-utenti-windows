@@ -8,8 +8,36 @@ setlocal EnableDelayedExpansion
 :: ============================================================
 
 set SRC=C:\
-set DST=D:\Backup\%COMPUTERNAME%
-set LOG=%DST%\backup.log
+
+:: Destinazione backup — modificare se necessario
+:: Default: sottocartella Backup\NomeMacchina nella cartella dello script
+set DST=%~dp0Backup\%COMPUTERNAME%
+
+:: Timestamp nel formato YYYY-MM-DD_HH-MM-SS
+:: Parsing data (formato italiano GG/MM/AAAA)
+for /f "tokens=1-3 delims=/" %%a in ("%DATE%") do (
+    set DD=%%a
+    set MM=%%b
+    set YYYY=%%c
+)
+:: Parsing ora (HH:MM:SS,cc)
+for /f "tokens=1-3 delims=:," %%a in ("%TIME: =0%") do (
+    set HH=%%a
+    set MN=%%b
+    set SS=%%c
+)
+set TS=%YYYY%-%MM%-%DD%_%HH%-%MN%-%SS%
+
+:: 5 caratteri casuali (A-Z + 0-9) per evitare collisioni tra esecuzioni parallele
+set CHARSET=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
+set RND5=
+for /l %%i in (1,1,5) do (
+    set /a IDX=!RANDOM! %% 36
+    for %%X in (!IDX!) do set RND5=!RND5!!CHARSET:~%%X,1!
+)
+
+set PREFIX=%TS%_%RND5%
+set LOG=%DST%\%PREFIX% backup.log
 
 :: Crea cartella di destinazione se non esiste
 if not exist "%DST%" mkdir "%DST%"
