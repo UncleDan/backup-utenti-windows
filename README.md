@@ -10,9 +10,9 @@ L'obiettivo è copiare **tutti i dati utente e le cartelle custom** presenti sul
 
 | File | Strumento | Modalità |
 |---|---|---|
-| `backup_utenti_windows.bat` | Robocopy (built-in Windows) | Copia file-level, mirror incrementale |
-| `backup_utenti_windows.ffs_batch` | FreeFileSync | Sincronizzazione con interfaccia grafica |
-| `backup_utenti_windows_7z.bat` | 7-Zip | Archivi compressi datati |
+| `backup-utenti-windows.bat` | Robocopy (built-in Windows) | Copia file-level, mirror incrementale |
+| `backup-utenti-windows.ffs_batch` | FreeFileSync | Sincronizzazione con interfaccia grafica |
+| `backup-utenti-windows-7z.bat` | 7-Zip | Archivi compressi datati |
 
 ---
 
@@ -51,7 +51,7 @@ L'obiettivo è copiare **tutti i dati utente e le cartelle custom** presenti sul
 
 ## Configurazione prima dell'uso
 
-### backup_utenti_windows.bat e backup_utenti_windows_7z.bat
+### backup-utenti-windows.bat e backup-utenti-windows-7z.bat
 
 Modificare la variabile `DST` in cima al file con il percorso di destinazione reale:
 
@@ -61,7 +61,7 @@ set DST=D:\Backup\%COMPUTERNAME%
 
 `%COMPUTERNAME%` viene espanso automaticamente con il nome della macchina.
 
-### backup_utenti_windows.ffs_batch
+### backup-utenti-windows.ffs_batch
 
 FreeFileSync non espande variabili d'ambiente nei path. Sostituire `NomeMacchina` nei due tag `<Right>` con il nome reale del PC o con il percorso di destinazione desiderato:
 
